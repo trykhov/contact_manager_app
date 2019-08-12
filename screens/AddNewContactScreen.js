@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Keyboard, 
-    AsyncStorage, Alert, TouchableWithoutFeedback, ScrollView } from 'react-native';
+    AsyncStorage, Alert, TouchableWithoutFeedback, ScrollView} from 'react-native';
 import { Form, Item, Input, Label, Button } from 'native-base';
 
 export default class AddNewContactScreen extends React.Component {
