@@ -12,7 +12,7 @@ export default class HomeScreen extends React.Component {
         }
     }
 
-    static navigationOption = {
+    static navigationOptions = { // puts the app name on the top
         title: "Contact App"
     }
     
