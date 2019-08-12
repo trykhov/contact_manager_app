@@ -4,6 +4,14 @@ import { Card } from 'native-base';
 import { Entypo } from '@expo/vector-icons';
 
 export default class HomeScreen extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: []
+        }
+    }
+
     static navigationOption = {
         title: "Contact App"
     }
