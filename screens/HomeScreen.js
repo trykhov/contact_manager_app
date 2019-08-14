@@ -29,7 +29,7 @@ export default class HomeScreen extends React.Component {
           return AsyncStorage.multiGet(keys)
             .then(result => this.setState({
               data: result.sort((a, b) => {
-              JSON.parse(a[0]).firstName - JSON.parse(b[0]).firstName
+              // JSON.parse(a[0]).firstName - JSON.parse(b[0]).firstName
               }
             )
             })
@@ -45,10 +45,20 @@ export default class HomeScreen extends React.Component {
           <FlatList
             data={this.state.data}
             renderItem={({item}) => {
-              let contact = JSON.parse(item[0]);
+            contact = JSON.parse(item[1]);
               return (
                 <TouchableOpacity>
-                  <Text>Try</Text>
+                  <Card style={styles.listItem}>
+                    <View style={styles.iconContainer}>
+                      <Text style={styles.contactIcon}>{contact.firstName[0].toUpperCase()}</Text>
+                    </View>
+                    <View style={styles.infoContainer}>
+                      <Text style={styles.infoText}>
+                        {contact.firstName} {contact.lastName}
+                      </Text>
+                      <Text style={styles.infoText}>{contact.phoneNumber}</Text>
+                    </View>
+                  </Card>
                 </TouchableOpacity>
               )
             }}
