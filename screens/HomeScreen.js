@@ -47,7 +47,13 @@ export default class HomeScreen extends React.Component {
             renderItem={({item}) => {
             contact = JSON.parse(item[1]);
               return (
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.navigation.navigate("View", {
+                      key: item[0].toString()
+                    });
+                  }}
+                >
                   <Card style={styles.listItem}>
                     <View style={styles.iconContainer}>
                       <Text style={styles.contactIcon}>{contact.firstName[0].toUpperCase()}</Text>
