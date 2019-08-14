@@ -15,13 +15,48 @@ export default class HomeScreen extends React.Component {
     static navigationOptions = { // puts the app name on the top
         title: "Contact App"
     }
+
+    componentWillMount() {
+      const {navigation} = this.props;
+      navigation.addListener("willFocus" , () => {
+        this.getAllContacts();
+      })
+    }
+
+    getAllContacts = async () => {
+      await AsyncStorage.getAllKeys()
+        .then(keys => {
+          return AsyncStorage.multiGet(keys)
+            .then(result => this.setState({
+              data: result.sort((a, b) => {
+              JSON.parse(a[0]).firstName - JSON.parse(b[0]).firstName
+              }
+            )
+            })
+          )
+            .catch(err => console.log(err));
+        })
+        .catch(err => console.log(err))
+    }
     
     render() {
         return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.floatButton} onPress={() => this.props.navigation.navigate("Add")}>
-                <Entypo name="plus" size={30} color="#fff"/>
-            </TouchableOpacity>
+          <FlatList
+            data={this.state.data}
+            renderItem={({item}) => {
+              let contact = JSON.parse(item[0]);
+              return (
+                <TouchableOpacity>
+                  <Text>Try</Text>
+                </TouchableOpacity>
+              )
+            }}
+            keyExtractor={(item, index) => item[0].toString()}
+          />
+          <TouchableOpacity style={styles.floatButton} onPress={() => this.props.navigation.navigate("Add")}>
+              <Entypo name="plus" size={30} color="#fff"/>
+          </TouchableOpacity>
         </View>
         )
     } 
