@@ -18,17 +18,49 @@ export default class ViewContactScreen extends React.Component {
     }
   }
 
+  static navigationOptions = {
+    title: "View Contact"
+  };
+
   componentDidMount() {
     const { navigation } = this.props;
     navigation.addListener("WillFocus", () => {
       let key = this.props.navigation.getParam("key", "");
       //TODO: call a method to use key
+      this.getContact(key)
     })
   }
 
-  static navigationOptions = {
-    title: "View Contact"
-  };
+  getContact = async key => {
+    await AsyncStorage.getItem(key)
+      .then(contactJSONString => {
+        let contact = JSON.parse(contactJSONString);
+        contact[key] = key;
+        this.setState({contact});
+      })
+      .catch(err => console.log(err))
+  }
+
+
+  callAction = phone => {
+    let phoneNumber = phone;
+    if(Platform.OS != "android") {
+      phoneNumber = `telpromt:${phone}`;
+    } else {
+      phoneNumber = `tel:${phone}`;
+    }
+    Linking.canOpenURL(phoneNumber)
+      .then(supported => {
+        if(!supported) {
+          Alert.alert("Phone number is not available")
+        } else {
+          return Linking.openURL(phoneNumber)
+        }
+      })
+      .catch(err => console.log(err))
+  }
+
+
 
   render() {
     return (
