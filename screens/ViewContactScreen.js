@@ -24,9 +24,8 @@ export default class ViewContactScreen extends React.Component {
 
   componentDidMount() {
     const { navigation } = this.props;
-    navigation.addListener("WillFocus", () => {
+    navigation.addListener("willFocus", () => {
       let key = this.props.navigation.getParam("key", "");
-      //TODO: call a method to use key
       this.getContact(key)
     })
   }
@@ -34,9 +33,9 @@ export default class ViewContactScreen extends React.Component {
   getContact = async key => {
     await AsyncStorage.getItem(key)
       .then(contactJSONString => {
-        let contact = JSON.parse(contactJSONString);
-        contact[key] = key;
-        this.setState({contact});
+        let contact = JSON.parse(contactJSONString); // turns into JSON
+        contact["key"] = key;
+        this.setState(contact); // no need for {} since contact is a JSON
       })
       .catch(err => console.log(err))
   }
@@ -44,7 +43,7 @@ export default class ViewContactScreen extends React.Component {
 
   callAction = phone => {
     let phoneNumber = phone;
-    if(Platform.OS != "android") {
+    if(Platform.OS !== "android") {
       phoneNumber = `telpromt:${phone}`;
     } else {
       phoneNumber = `tel:${phone}`;
@@ -81,9 +80,42 @@ export default class ViewContactScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>View</Text>
-      </View>
+      <ScrollView style={styles.container}>
+        <View style={styles.contactIconContainer}>
+          <Text style={styles.contactIcon}>
+            {this.state.firstName[0].toUpperCase()}
+          </Text>
+          <View style={styles.nameContainer}>
+            <Text style={styles.name}>{this.state.firstName} {this.state.lastName}</Text>
+          </View>
+        </View>
+        <View style={styles.infoContainer}>
+          <Card>
+            <CardItem bordered>
+              <Text style={styles.infoText}>Phone</Text>
+            </CardItem>
+            <CardItem bordered>
+              <Text style={styles.infoText}>{this.state.phoneNumber}</Text>
+            </CardItem>
+          </Card>
+          <Card>
+            <CardItem bordered>
+              <Text style={styles.infoText}>Email</Text>
+            </CardItem>
+            <CardItem bordered>
+              <Text style={styles.infoText}>{this.state.email}</Text>
+            </CardItem>
+          </Card>
+          <Card>
+            <CardItem bordered>
+              <Text style={styles.infoText}>Address</Text>
+            </CardItem>
+            <CardItem bordered>
+              <Text style={styles.infoText}>{this.state.address}</Text>
+            </CardItem>
+          </Card>
+        </View>
+      </ScrollView>
     )
   }
 }
@@ -121,6 +153,9 @@ const styles = StyleSheet.create({
   infoText: {
     fontSize: 18,
     fontWeight: "300"
+  },
+  infoContainer: {
+    flexDirection: "column"
   },
   actionContainer: {
     flexDirection: "row"

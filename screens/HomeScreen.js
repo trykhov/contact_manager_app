@@ -28,10 +28,7 @@ export default class HomeScreen extends React.Component {
         .then(keys => {
           return AsyncStorage.multiGet(keys)
             .then(result => this.setState({
-              data: result.sort((a, b) => {
-              // JSON.parse(a[0]).firstName - JSON.parse(b[0]).firstName
-              }
-            )
+              data: result.sort()
             })
           )
             .catch(err => console.log(err));
