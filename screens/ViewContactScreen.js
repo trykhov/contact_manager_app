@@ -115,6 +115,62 @@ export default class ViewContactScreen extends React.Component {
             </CardItem>
           </Card>
         </View>
+        <Card style={styles.actionContainer}>
+          <CardItem bordered style={styles.actionButton}>
+            <TouchableOpacity
+              onPress={() => {
+                // allows people to text
+                this.getSMSAction(this.state.phoneNumber); 
+              }}
+            >
+              <Entypo
+                name="message"
+                size={50}
+                color="#B83227"
+              />
+            </TouchableOpacity>
+          </CardItem>
+          <CardItem bordered style={styles.actionButton}>
+            <TouchableOpacity
+              onPress={() => {
+                // allows people to call
+                this.callAction(this.state.phoneNumber);
+              }}
+            >
+              <Entypo
+                name="phone"
+                size={50}
+                color="#B83227"
+              />
+            </TouchableOpacity>
+          </CardItem>
+        </Card>
+        <Card style={styles.actionContainer}>
+          <CardItem bordered style={styles.actionButton}>
+            <TouchableOpacity
+              onPress={() => {
+                this.editContact(this.state.key)
+              }}
+            >
+              <Entypo
+                name="edit"
+                size={50}
+                color="#B83227"
+              />
+              <Text style={styles.actionText}>Edit</Text>
+            </TouchableOpacity>
+          </CardItem>
+          <CardItem bordered style={styles.actionButton}>
+            <TouchableOpacity
+              onPress={() => {
+                this.deleteContact(this.state.key);
+              }}
+            >
+              <Entypo name="trash" size={50} color="#B83227"/>
+              
+            </TouchableOpacity>
+          </CardItem>
+        </Card>
       </ScrollView>
     )
   }
